@@ -1,0 +1,2140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reno Widi Prastyo - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #87ceeb 0%, #4fc3f7 100%);
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Admin Panel Styles - Simple & Clean */
+        .admin-login {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 999999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-login.show {
+            display: flex;
+        }
+
+        .login-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f5f5f5;
+            z-index: 999998;
+            display: none;
+            overflow-y: auto;
+        }
+
+        .admin-panel.show {
+            display: block;
+        }
+
+        .admin-header {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .admin-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .admin-tabs {
+            display: flex;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .admin-tab {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+            color: #666;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .admin-tab.active {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .admin-tab:hover:not(.active) {
+            background: #f0f0f0;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+            margin-left: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .card {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .portfolio-item {
+            background: #f9f9f9;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #e0e0e0;
+        }
+
+        .item-actions {
+            margin-top: 1rem;
+        }
+
+        .item-actions button {
+            margin-right: 0.5rem;
+        }
+
+        /* Entrance Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .animate-on-scroll.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-100px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .slide-in-left.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .slide-in-right.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .scale-in.animate {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .stagger-animation {
+            animation-delay: var(--delay, 0s);
+        }
+        
+        /* Page Loading Animation */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            z-index: 2147483645;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            animation: fadeOutLoader 0.8s ease-in-out 2.5s forwards;
+        }
+        
+        .loader-content {
+            text-align: center;
+            color: white;
+        }
+        
+        .loader-logo {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        .loader-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .loader-subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeOutLoader {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+        
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        /* Page Content Initial State */
+        .page-content {
+            opacity: 0;
+            animation: fadeInPage 1s ease-in-out 2.8s forwards;
+        }
+        
+        @keyframes fadeInPage {
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* Hero entrance animation */
+        .hero-entrance {
+            opacity: 0;
+            transform: translateY(50px) scale(0.9);
+            animation: heroEntrance 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 3.2s forwards;
+        }
+        
+        @keyframes heroEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            50% {
+                opacity: 0.7;
+                transform: translateY(-10px) scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        /* Navigation entrance */
+        .nav-entrance {
+            opacity: 0;
+            transform: translateY(-30px);
+            animation: navEntrance 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 3s forwards;
+        }
+        
+        @keyframes navEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Welcome Text Animation */
+        .welcome-text {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: welcomeText 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 4s forwards;
+        }
+        
+        @keyframes welcomeText {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Staggered Button Animation */
+        .hero-buttons {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroButtons 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 4.5s forwards;
+        }
+        
+        @keyframes heroButtons {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Floating animation for hero elements */
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Pulse animation for buttons */
+        .pulse-on-hover:hover {
+            animation: pulse 0.6s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-content">
+            <div class="loader-logo"></div>
+            <div class="loader-text">Reno Widi Prastyo</div>
+            <div class="loader-subtitle">Loading Portfolio...</div>
+        </div>
+    </div>
+
+    <!-- Page Content Wrapper -->
+    <div class="page-content" id="pageContent">
+    
+    <!-- Admin Login Modal -->
+    <div id="adminLogin" class="admin-login">
+        <div class="login-box">
+            <h2 style="text-align: center; margin-bottom: 1.5rem; color: #333;">Admin Login</h2>
+            <form onsubmit="handleAdminLogin(event)">
+                <div class="form-group">
+                    <label>Username:</label>
+                    <input type="text" id="adminUsername" required>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" id="adminPassword" required>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Login</button>
+                    <button type="button" onclick="hideAdminLogin()" class="btn btn-secondary" style="flex: 1;">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="admin-panel">
+        <div class="admin-header">
+            <h1 style="margin: 0; color: #333; font-size: 1.5rem;">Admin Panel</h1>
+            <button onclick="closeAdminPanel()" class="btn btn-danger">
+                <i class="fas fa-times"></i> Close
+            </button>
+        </div>
+        <div class="admin-content">
+            <!-- Admin Tabs -->
+            <div class="admin-tabs">
+                <button class="admin-tab active" onclick="switchTab('profile')">Profile</button>
+                <button class="admin-tab" onclick="switchTab('portfolio')">Portfolio</button>
+                <button class="admin-tab" onclick="switchTab('contact')">Contact</button>
+                <button class="admin-tab" onclick="switchTab('links')">Links</button>
+                <button class="admin-tab" onclick="switchTab('settings')">Settings</button>
+                <button class="admin-tab" onclick="switchTab('backup')">Backup</button>
+            </div>
+
+            <!-- Profile Tab -->
+            <div id="profile" class="tab-content active">
+                <h2 style="margin-bottom: 1.5rem; color: #333;">Profile Settings</h2>
+                
+                <!-- Profile Photo Section -->
+                <div class="card" style="margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 1rem; color: #333;">Foto Profil</h3>
+                    <div style="display: flex; align-items: center; gap: 2rem;">
+                        <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-gray-300 bg-gray-200 flex items-center justify-center" id="adminProfilePreview">
+                            <i class="fas fa-user text-2xl text-gray-500" id="adminProfileIcon"></i>
+                            <img id="adminProfileImg" class="w-full h-full object-cover" style="display: none;">
+                        </div>
+                        <div style="flex: 1;">
+                            <div class="form-group" style="margin-bottom: 1rem;">
+                                <label>Upload Foto Profil:</label>
+                                <input type="file" id="profilePhoto" accept="image/*" onchange="handleProfilePhotoUpload(event)" style="margin-bottom: 0.5rem;">
+                                <p style="font-size: 0.875rem; color: #666; margin: 0;">Format: JPG, PNG, GIF (Max: 2MB)</p>
+                            </div>
+                            <div style="display: flex; gap: 1rem;">
+                                <button type="button" onclick="removeProfilePhoto()" class="btn btn-secondary">Hapus Foto</button>
+                                <button type="button" onclick="resetProfileToDefault()" class="btn btn-secondary">Reset Default</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form onsubmit="updateProfile(event)">
+                    <div class="grid grid-2">
+                        <div>
+                            <div class="form-group">
+                                <label>Full Name:</label>
+                                <input type="text" id="profileName" value="Reno Widi Prastyo">
+                            </div>
+                            <div class="form-group">
+                                <label>Title/Position:</label>
+                                <input type="text" id="profileTitle" value="Web Developer & UI/UX Designer">
+                            </div>
+                            <div class="form-group">
+                                <label>Email:</label>
+                                <input type="email" id="profileEmail" value="renowp46@gmail.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone:</label>
+                                <input type="text" id="profilePhone" value="+62 897-6624-410">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label>Location:</label>
+                                <input type="text" id="profileLocation" value="Sidoarjo, Indonesia">
+                            </div>
+                            <div class="form-group">
+                                <label>Bio/Description:</label>
+                                <textarea rows="4" id="profileBio">Saya adalah seorang Web Developer dan UI/UX Designer dengan pengalaman lebih dari 3 tahun dalam mengembangkan aplikasi web yang inovatif dan user-friendly.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>LinkedIn URL:</label>
+                                <input type="url" id="profileLinkedin" value="https://linkedin.com/in/reno-widi-prastyo">
+                            </div>
+                            <div class="form-group">
+                                <label>GitHub URL:</label>
+                                <input type="url" id="profileGithub" value="https://github.com/renoowp21">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                </form>
+            </div>
+
+            <!-- Portfolio Tab -->
+            <div id="portfolio" class="tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2 style="margin: 0; color: #333;">Portfolio Items</h2>
+                    <button onclick="showAddForm()" class="btn btn-primary">Add New Item</button>
+                </div>
+
+                <!-- Add Form -->
+                <div id="addForm" style="display: none;" class="card" style="margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 1rem;">Add Portfolio Item</h3>
+                    <form onsubmit="addPortfolioItem(event)">
+                        <div class="grid grid-2">
+                            <div class="form-group">
+                                <label>Title:</label>
+                                <input type="text" id="portfolioTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Category:</label>
+                                <select id="portfolioCategory" required>
+                                    <option value="">Select Category</option>
+                                    <option value="web">Web Development</option>
+                                    <option value="mobile">Mobile App</option>
+                                    <option value="design">UI/UX Design</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description:</label>
+                            <textarea rows="3" id="portfolioDescription" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Technologies (comma separated):</label>
+                            <input type="text" id="portfolioTech" placeholder="React, Node.js, MongoDB">
+                        </div>
+                        <div class="form-group">
+                            <label>Project URL (optional):</label>
+                            <input type="url" id="portfolioUrl" placeholder="https://example.com">
+                        </div>
+                        <div class="grid grid-2">
+                            <div class="form-group">
+                                <label>Icon Class:</label>
+                                <select id="portfolioIcon">
+                                    <option value="fas fa-laptop-code">💻 Laptop Code</option>
+                                    <option value="fas fa-mobile-alt">📱 Mobile</option>
+                                    <option value="fas fa-paint-brush">🎨 Paint Brush</option>
+                                    <option value="fas fa-blog">📝 Blog</option>
+                                    <option value="fab fa-github">🐙 GitHub</option>
+                                    <option value="fas fa-shopping-cart">🛒 Shopping Cart</option>
+                                    <option value="fas fa-chart-bar">📊 Chart</option>
+                                    <option value="fas fa-camera">📷 Camera</option>
+                                    <option value="fas fa-gamepad">🎮 Game</option>
+                                    <option value="fas fa-globe">🌐 Globe</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Color Gradient:</label>
+                                <select id="portfolioGradient">
+                                    <option value="from-sky-400 to-blue-500">Light Blue to Blue</option>
+                                    <option value="from-sky-300 to-sky-600">Light Blue Gradient</option>
+                                    <option value="from-blue-400 to-sky-500">Blue to Light Blue</option>
+                                    <option value="from-cyan-400 to-blue-500">Cyan to Blue</option>
+                                    <option value="from-sky-500 to-blue-600">Sky to Blue</option>
+                                    <option value="from-gray-700 to-gray-900">Gray Dark</option>
+                                    <option value="from-blue-500 to-sky-400">Blue to Sky</option>
+                                    <option value="from-teal-400 to-sky-500">Teal to Sky</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 1rem;">
+                            <button type="submit" class="btn btn-primary">Add Item</button>
+                            <button type="button" onclick="hideAddForm()" class="btn btn-secondary">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Edit Form -->
+                <div id="editForm" style="display: none;" class="card" style="margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 1rem;">Edit Portfolio Item</h3>
+                    <form onsubmit="updatePortfolioItem(event)">
+                        <input type="hidden" id="editPortfolioId">
+                        <div class="grid grid-2">
+                            <div class="form-group">
+                                <label>Title:</label>
+                                <input type="text" id="editPortfolioTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Category:</label>
+                                <select id="editPortfolioCategory" required>
+                                    <option value="">Select Category</option>
+                                    <option value="web">Web Development</option>
+                                    <option value="mobile">Mobile App</option>
+                                    <option value="design">UI/UX Design</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description:</label>
+                            <textarea rows="3" id="editPortfolioDescription" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Technologies (comma separated):</label>
+                            <input type="text" id="editPortfolioTech" placeholder="React, Node.js, MongoDB">
+                        </div>
+                        <div class="form-group">
+                            <label>Project URL (optional):</label>
+                            <input type="url" id="editPortfolioUrl" placeholder="https://example.com">
+                        </div>
+                        <div class="grid grid-2">
+                            <div class="form-group">
+                                <label>Icon Class:</label>
+                                <select id="editPortfolioIcon">
+                                    <option value="fas fa-laptop-code">💻 Laptop Code</option>
+                                    <option value="fas fa-mobile-alt">📱 Mobile</option>
+                                    <option value="fas fa-paint-brush">🎨 Paint Brush</option>
+                                    <option value="fas fa-blog">📝 Blog</option>
+                                    <option value="fab fa-github">🐙 GitHub</option>
+                                    <option value="fas fa-shopping-cart">🛒 Shopping Cart</option>
+                                    <option value="fas fa-chart-bar">📊 Chart</option>
+                                    <option value="fas fa-camera">📷 Camera</option>
+                                    <option value="fas fa-gamepad">🎮 Game</option>
+                                    <option value="fas fa-globe">🌐 Globe</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Color Gradient:</label>
+                                <select id="editPortfolioGradient">
+                                    <option value="from-sky-400 to-blue-500">Light Blue to Blue</option>
+                                    <option value="from-sky-300 to-sky-600">Light Blue Gradient</option>
+                                    <option value="from-blue-400 to-sky-500">Blue to Light Blue</option>
+                                    <option value="from-cyan-400 to-blue-500">Cyan to Blue</option>
+                                    <option value="from-sky-500 to-blue-600">Sky to Blue</option>
+                                    <option value="from-gray-700 to-gray-900">Gray Dark</option>
+                                    <option value="from-blue-500 to-sky-400">Blue to Sky</option>
+                                    <option value="from-teal-400 to-sky-500">Teal to Sky</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 1rem;">
+                            <button type="submit" class="btn btn-primary">Update Item</button>
+                            <button type="button" onclick="hideEditForm()" class="btn btn-secondary">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Portfolio List -->
+                <div id="portfolioList">
+                    <!-- Portfolio items will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Contact Tab -->
+            <div id="contact" class="tab-content">
+                <h2 style="margin-bottom: 1.5rem; color: #333;">Contact Information</h2>
+                <form onsubmit="updateContact(event)">
+                    <div class="grid grid-2">
+                        <div>
+                            <div class="form-group">
+                                <label>Email Address:</label>
+                                <input type="email" id="contactEmail" value="renowp46@gmail.com">
+                            </div>
+                            <div class="form-group">
+                                <label>WhatsApp Number:</label>
+                                <input type="text" id="contactWhatsapp" value="+62 897-6624-410">
+                            </div>
+                            <div class="form-group">
+                                <label>Location:</label>
+                                <input type="text" id="contactLocation" value="Sidoarjo, Indonesia">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label>Contact Message:</label>
+                                <textarea rows="4" id="contactMessage">Siap untuk memulai proyek bersama? Hubungi saya melalui berbagai cara di bawah ini:</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>LinkedIn URL:</label>
+                                <input type="url" id="contactLinkedin" value="https://linkedin.com/in/reno-widi-prastyo">
+                            </div>
+                            <div class="form-group">
+                                <label>GitHub URL:</label>
+                                <input type="url" id="contactGithub" value="https://github.com/renoowp21">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Contact Info</button>
+                </form>
+            </div>
+
+            <!-- Links Tab -->
+            <div id="links" class="tab-content">
+                <h2 style="margin-bottom: 1.5rem; color: #333;">Link Manager</h2>
+                <p style="color: #666; margin-bottom: 2rem;">Kelola semua link yang digunakan di website Anda</p>
+                
+                <div class="grid grid-2">
+                    <!-- CV & Documents -->
+                    <div class="card">
+                        <h3 style="margin-bottom: 1rem; color: #333;">CV & Dokumen</h3>
+                        <form onsubmit="updateCVLink(event)">
+                            <div class="form-group">
+                                <label>CV Download Link:</label>
+                                <input type="url" id="cvLink" value="https://drive.google.com/file/d/1_0ZQlL5PJf_29qL89b6S8yDKjcLkpbL-/view?usp=drive_link">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update CV Link</button>
+                        </form>
+                    </div>
+
+                    <!-- Social Media Links -->
+                    <div class="card">
+                        <h3 style="margin-bottom: 1rem; color: #333;">Social Media</h3>
+                        <form onsubmit="updateSocialLinks(event)">
+                            <div class="form-group">
+                                <label>LinkedIn URL:</label>
+                                <input type="url" id="socialLinkedin" value="https://linkedin.com/in/reno-widi-prastyo">
+                            </div>
+                            <div class="form-group">
+                                <label>GitHub URL:</label>
+                                <input type="url" id="socialGithub" value="https://github.com/renoowp21">
+                            </div>
+                            <div class="form-group">
+                                <label>Twitter URL:</label>
+                                <input type="url" id="socialTwitter" value="https://twitter.com/renoowp">
+                            </div>
+                            <div class="form-group">
+                                <label>Instagram URL:</label>
+                                <input type="url" id="socialInstagram" value="https://instagram.com/renoowp">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Social Links</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Certificates Links -->
+                <div class="card" style="margin-top: 2rem;">
+                    <h3 style="margin-bottom: 1rem; color: #333;">Sertifikat Links</h3>
+                    <form onsubmit="updateCertificateLinks(event)">
+                        <div class="grid grid-2">
+                            <div>
+                                <div class="form-group">
+                                    <label>Dicoding Certificate:</label>
+                                    <input type="url" id="certDicoding" value="https://drive.google.com/file/d/1OxiioGF76untIgnPWCz1TvqgbYo-akD8/view?usp=drive_link">
+                                </div>
+                                <div class="form-group">
+                                    <label>UI/UX Certificate:</label>
+                                    <input type="url" id="certUIUX" value="">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group">
+                                    <label>JavaScript Certificate:</label>
+                                    <input type="url" id="certJavaScript" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label>Other Certificate:</label>
+                                    <input type="url" id="certOther" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Certificate Links</button>
+                    </form>
+                </div>
+
+                <!-- Contact Links -->
+                <div class="card" style="margin-top: 2rem;">
+                    <h3 style="margin-bottom: 1rem; color: #333;">Contact Links</h3>
+                    <form onsubmit="updateContactLinks(event)">
+                        <div class="grid grid-2">
+                            <div>
+                                <div class="form-group">
+                                    <label>WhatsApp Number (with country code):</label>
+                                    <input type="text" id="whatsappNumber" value="628976624410" placeholder="628976624410">
+                                </div>
+                                <div class="form-group">
+                                    <label>WhatsApp Default Message:</label>
+                                    <textarea rows="3" id="whatsappMessage">Halo Reno, saya tertarik dengan layanan web development Anda.</textarea>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group">
+                                    <label>Email Address:</label>
+                                    <input type="email" id="emailAddress" value="renowp46@gmail.com">
+                                </div>
+                                <div class="form-group">
+                                    <label>Google Maps Location:</label>
+                                    <input type="text" id="mapsLocation" value="Sidoarjo, Indonesia" placeholder="City, Country">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Contact Links</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings" class="tab-content">
+                <h2 style="margin-bottom: 1.5rem; color: #333;">Website Settings</h2>
+                
+                <div class="card" style="margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 1rem;">SEO Settings</h3>
+                    <form onsubmit="updateSEO(event)">
+                        <div class="form-group">
+                            <label>Website Title:</label>
+                            <input type="text" id="seoTitle" value="Reno Widi Prastyo - Portfolio">
+                        </div>
+                        <div class="form-group">
+                            <label>Meta Description:</label>
+                            <textarea rows="3" id="seoDescription">Professional Web Developer and UI/UX Designer portfolio showcasing innovative web applications and user-friendly designs.</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update SEO</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-bottom: 1rem;">Admin Credentials</h3>
+                    <form onsubmit="updateCredentials(event)">
+                        <div class="grid grid-2">
+                            <div class="form-group">
+                                <label>New Username:</label>
+                                <input type="text" id="newUsername" required>
+                            </div>
+                            <div class="form-group">
+                                <label>New Password:</label>
+                                <input type="password" id="newPassword" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Credentials</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Backup Tab -->
+            <div id="backup" class="tab-content">
+                <h2 style="margin-bottom: 1.5rem; color: #333;">Backup & Restore</h2>
+                <p style="color: #666; margin-bottom: 2rem;">Kelola backup data website Anda untuk keamanan dan portabilitas.</p>
+                
+                <div class="grid grid-2">
+                    <!-- Export Data -->
+                    <div class="card">
+                        <h3 style="margin-bottom: 1rem; color: #333;">📤 Export Data</h3>
+                        <p style="color: #666; margin-bottom: 1.5rem;">Download semua data website sebagai file backup JSON.</p>
+                        <button onclick="exportData()" class="btn btn-primary">
+                            <i class="fas fa-download mr-2"></i>Download Backup
+                        </button>
+                    </div>
+
+                    <!-- Import Data -->
+                    <div class="card">
+                        <h3 style="margin-bottom: 1rem; color: #333;">📥 Import Data</h3>
+                        <p style="color: #666; margin-bottom: 1.5rem;">Upload file backup untuk mengembalikan data website.</p>
+                        <input type="file" id="importFile" accept=".json" onchange="importData(event)" style="margin-bottom: 1rem;">
+                        <p style="font-size: 0.875rem; color: #888;">Format: JSON (dari export sebelumnya)</p>
+                    </div>
+                </div>
+
+                <!-- Reset Data -->
+                <div class="card" style="margin-top: 2rem; border: 2px solid #ef4444;">
+                    <h3 style="margin-bottom: 1rem; color: #ef4444;">⚠️ Reset Data</h3>
+                    <p style="color: #666; margin-bottom: 1.5rem;">
+                        <strong>PERINGATAN:</strong> Ini akan menghapus SEMUA data yang telah Anda simpan dan mengembalikan website ke pengaturan default.
+                    </p>
+                    <button onclick="resetToDefault()" class="btn btn-danger">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>Reset ke Default
+                    </button>
+                </div>
+
+                <!-- Storage Info -->
+                <div class="card" style="margin-top: 2rem; background: #f0f9ff; border: 1px solid #0ea5e9;">
+                    <h3 style="margin-bottom: 1rem; color: #0ea5e9;">💾 Informasi Penyimpanan</h3>
+                    <div style="color: #666;">
+                        <p style="margin-bottom: 0.5rem;"><strong>Status:</strong> <span style="color: #10b981;">✅ Data tersimpan otomatis</span></p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Lokasi:</strong> Browser localStorage</p>
+                        <p style="margin-bottom: 0.5rem;"><strong>Kapasitas:</strong> ~5-10MB (tergantung foto profil)</p>
+                        <p style="margin-bottom: 1rem;"><strong>Persistensi:</strong> Data akan tetap ada setelah refresh/restart browser</p>
+                        
+                        <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid #e0e7ff;">
+                            <h4 style="margin-bottom: 0.5rem; color: #4f46e5;">📋 Tips Backup:</h4>
+                            <ul style="margin: 0; padding-left: 1.5rem; color: #666;">
+                                <li>Lakukan backup secara berkala</li>
+                                <li>Simpan file backup di tempat yang aman</li>
+                                <li>Test restore backup di environment terpisah</li>
+                                <li>Data tersimpan per browser/device</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md fixed w-full top-0 z-50 nav-entrance">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="text-xl font-bold text-gray-800">Reno Widi Prastyo</div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-gray-600 hover:text-gray-800 transition-colors">Home</a>
+                    <a href="#about" class="text-gray-600 hover:text-gray-800 transition-colors">About</a>
+                    <a href="#portfolioSection" class="text-gray-600 hover:text-gray-800 transition-colors">Portfolio</a>
+                    <a href="#contactSection" class="text-gray-600 hover:text-gray-800 transition-colors">Contact</a>
+                    <button onclick="showAdminLogin()" class="text-gray-500 hover:text-gray-800 transition-colors" title="Admin">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+                <div class="md:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-gray-600">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <div class="px-4 py-4 space-y-2">
+                <a href="#home" class="block text-gray-600 hover:text-gray-800 py-2">Home</a>
+                <a href="#about" class="block text-gray-600 hover:text-gray-800 py-2">About</a>
+                <a href="#portfolioSection" class="block text-gray-600 hover:text-gray-800 py-2">Portfolio</a>
+                <a href="#contactSection" class="block text-gray-600 hover:text-gray-800 py-2">Contact</a>
+                <button onclick="showAdminLogin()" class="w-full text-left text-gray-500 hover:text-gray-800 py-2">
+                    <i class="fas fa-cog mr-2"></i>Admin
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="bg-gray-100 min-h-screen flex items-center justify-center text-gray-800">
+        <div class="max-w-4xl mx-auto px-4 text-center hero-entrance">
+            <div class="mb-8 float-animation">
+                <div class="w-32 h-32 mx-auto mb-8 rounded-full overflow-hidden bg-gray-200 border-4 border-gray-300 flex items-center justify-center" id="heroProfilePhoto">
+                    <i class="fas fa-user text-4xl text-gray-500" id="heroProfileIcon"></i>
+                    <img id="heroProfileImg" class="w-full h-full object-cover" style="display: none;">
+                </div>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 welcome-text text-gray-800" id="heroName">Reno Widi Prastyo</h1>
+            <p class="text-xl md:text-2xl mb-8 text-gray-600 welcome-text" id="heroTitle">Web Developer & UI/UX Designer</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center hero-buttons">
+                <button onclick="downloadCV()" class="bg-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all duration-300 pulse-on-hover">
+                    <i class="fas fa-download mr-2"></i>Download CV
+                </button>
+                <a href="#contactSection" class="border-2 border-gray-600 text-gray-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-600 hover:text-white transition-all duration-300 pulse-on-hover">
+                    Let's Talk
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="text-4xl font-bold text-gray-800 mb-6">About Me</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed" id="aboutBio">
+                    Saya adalah seorang Web Developer dan UI/UX Designer dengan pengalaman lebih dari 3 tahun dalam mengembangkan aplikasi web yang inovatif dan user-friendly. Passionate dalam menciptakan solusi digital yang tidak hanya fungsional tetapi juga memberikan pengalaman pengguna yang luar biasa.
+                </p>
+            </div>
+
+
+
+            <!-- Certificates Section -->
+            <div class="mt-16 animate-on-scroll">
+                <h3 class="text-2xl font-bold text-gray-800 mb-8 text-center">Sertifikat & Pencapaian</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-lg text-center card-hover">
+                        <div class="w-16 h-16 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Dicoding</h4>
+                        <p class="text-sm text-gray-600 mb-3">Web Development</p>
+                        <button onclick="viewCertificate('web-dev')" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                            Lihat Sertifikat →
+                        </button>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-lg text-center card-hover">
+                        <div class="w-16 h-16 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-paint-brush text-white text-2xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Adobe</h4>
+                        <p class="text-sm text-gray-600 mb-3">UI/UX Design</p>
+                        <button onclick="viewCertificate('ui-ux')" class="text-sky-500 hover:text-sky-700 text-sm font-medium">
+                            Lihat Sertifikat →
+                        </button>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-lg text-center card-hover">
+                        <div class="w-16 h-16 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fab fa-js-square text-white text-2xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Meta</h4>
+                        <p class="text-sm text-gray-600 mb-3">Frontend Developer</p>
+                        <button onclick="viewCertificate('javascript')" class="text-sky-500 hover:text-sky-700 text-sm font-medium">
+                            Lihat Sertifikat →
+                        </button>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-lg text-center card-hover">
+                        <div class="w-16 h-16 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-certificate text-white text-2xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Lainnya</h4>
+                        <p class="text-sm text-gray-600 mb-3">Sertifikat Tambahan</p>
+                        <button onclick="viewCertificate('other')" class="text-sky-500 hover:text-sky-700 text-sm font-medium">
+                            Lihat Sertifikat →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolioSection" class="py-20 bg-gray-100">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="text-4xl font-bold text-gray-800 mb-6">My Portfolio</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Berikut adalah beberapa proyek yang telah saya kerjakan dengan berbagai teknologi modern</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="portfolioGrid">
+                <!-- Portfolio items will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contactSection" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="text-4xl font-bold text-gray-800 mb-6">Hubungi Saya</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto" id="contactMessage">Siap untuk memulai proyek bersama? Hubungi saya melalui berbagai cara di bawah ini:</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Contact Info -->
+                <div class="slide-in-left">
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                            <div class="w-12 h-12 bg-gradient-to-r from-sky-400 to-blue-500 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-envelope text-white"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-gray-800">Email</h4>
+                                <p class="text-gray-600" id="contactEmailDisplay">renowp46@gmail.com</p>
+                            </div>
+                            <button onclick="openEmail()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                                <i class="fas fa-external-link-alt"></i>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                            <div class="w-12 h-12 bg-gradient-to-r from-green-400 to-green-600 rounded-lg flex items-center justify-center">
+                                <i class="fab fa-whatsapp text-white"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-gray-800">WhatsApp</h4>
+                                <p class="text-gray-600" id="contactWhatsappDisplay">+62 897-6624-410</p>
+                            </div>
+                            <button onclick="openWhatsApp()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                                <i class="fas fa-external-link-alt"></i>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                            <div class="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-gray-800">Location</h4>
+                                <p class="text-gray-600" id="contactLocationDisplay">Sidoarjo, Indonesia</p>
+                            </div>
+                            <button onclick="openMaps()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                                <i class="fas fa-external-link-alt"></i>
+                            </button>
+                        </div>
+
+                        <!-- Social Links -->
+                        <div class="flex space-x-4 pt-4">
+                            <button onclick="openLinkedIn()" class="w-12 h-12 bg-blue-600 hover:bg-blue-700 rounded-lg flex items-center justify-center transition-colors" title="LinkedIn">
+                                <i class="fab fa-linkedin text-white"></i>
+                            </button>
+                            <button onclick="openGithub()" class="w-12 h-12 bg-gray-800 hover:bg-gray-900 rounded-lg flex items-center justify-center transition-colors" title="GitHub">
+                                <i class="fab fa-github text-white"></i>
+                            </button>
+                            <button onclick="openTwitter()" class="w-12 h-12 bg-blue-400 hover:bg-blue-500 rounded-lg flex items-center justify-center transition-colors" title="Twitter">
+                                <i class="fab fa-twitter text-white"></i>
+                            </button>
+                            <button onclick="openInstagram()" class="w-12 h-12 bg-pink-600 hover:bg-pink-700 rounded-lg flex items-center justify-center transition-colors" title="Instagram">
+                                <i class="fab fa-instagram text-white"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="slide-in-right">
+                    <form onsubmit="handleContactForm(event)" class="bg-gray-50 p-8 rounded-xl">
+                        <div class="mb-6">
+                            <label class="block text-gray-800 font-semibold mb-2">Name</label>
+                            <input type="text" name="name" required class="w-full px-4 py-3 border border-gray-300 bg-white text-gray-800 rounded-lg focus:outline-none focus:border-purple-500 transition-colors">
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-gray-800 font-semibold mb-2">Email</label>
+                            <input type="email" name="email" required class="w-full px-4 py-3 border border-gray-300 bg-white text-gray-800 rounded-lg focus:outline-none focus:border-purple-500 transition-colors">
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-gray-800 font-semibold mb-2">Message</label>
+                            <textarea rows="5" name="message" required class="w-full px-4 py-3 border border-gray-300 bg-white text-gray-800 rounded-lg focus:outline-none focus:border-purple-500 transition-colors resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-sky-400 to-blue-500 text-white py-3 rounded-lg font-semibold hover:from-sky-500 hover:to-blue-600 transition-all duration-300 pulse-on-hover">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p class="text-gray-400">&copy; 2024 <span id="footerName">Reno Widi Prastyo</span>. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    </div> <!-- End Page Content Wrapper -->
+
+    <script>
+        // Global variables for admin data
+        let adminCredentials = {
+            username: 'admin',
+            password: 'admin123'
+        };
+
+        // Default data structure
+        const defaultAdminData = {
+            profile: {
+                name: 'Reno Widi Prastyo',
+                title: 'Web Developer & UI/UX Designer',
+                email: 'renowp46@gmail.com',
+                phone: '+62 897-6624-410',
+                location: 'Sidoarjo, Indonesia',
+                bio: 'Saya adalah seorang Web Developer dan UI/UX Designer dengan pengalaman lebih dari 3 tahun dalam mengembangkan aplikasi web yang inovatif dan user-friendly.',
+                linkedin: 'https://linkedin.com/in/reno-widi-prastyo',
+                github: 'https://github.com/renoowp21',
+                photo: null // Will store base64 image data
+            },
+            links: {
+                cv: 'https://drive.google.com/file/d/1_0ZQlL5PJf_29qL89b6S8yDKjcLkpbL-/view?usp=drive_link',
+                social: {
+                    linkedin: 'https://linkedin.com/in/reno-widi-prastyo',
+                    github: 'https://github.com/renoowp21',
+                    twitter: 'https://twitter.com/renoowp',
+                    instagram: 'https://instagram.com/renoowp'
+                },
+                certificates: {
+                    dicoding: 'https://drive.google.com/file/d/1OxiioGF76untIgnPWCz1TvqgbYo-akD8/view?usp=drive_link',
+                    uiux: '',
+                    javascript: '',
+                    other: ''
+                },
+                contact: {
+                    whatsappNumber: '628976624410',
+                    whatsappMessage: 'Halo Reno, saya tertarik dengan layanan web development Anda.',
+                    email: 'renowp46@gmail.com',
+                    mapsLocation: 'Sidoarjo, Indonesia'
+                }
+            },
+            contact: {
+                email: 'renowp46@gmail.com',
+                whatsapp: '+62 897-6624-410',
+                location: 'Sidoarjo, Indonesia',
+                message: 'Siap untuk memulai proyek bersama? Hubungi saya melalui berbagai cara di bawah ini:',
+                linkedin: 'https://linkedin.com/in/reno-widi-prastyo',
+                github: 'https://github.com/renoowp21'
+            },
+            portfolioItems: [
+                {
+                    id: 1,
+                    title: 'Blogger',
+                    category: 'web',
+                    description: 'Blog personal yang membahas teknologi, programming, dan pengalaman dalam web development.',
+                    technologies: ['Blogger', 'HTML', 'CSS', 'JavaScript'],
+                    url: 'https://renoowp.blogspot.com/',
+                    icon: 'fas fa-blog',
+                    gradient: 'from-sky-400 to-blue-500'
+                },
+                {
+                    id: 2,
+                    title: 'Github',
+                    category: 'web',
+                    description: 'Repository kode sumber website portfolio ini dan proyek-proyek lainnya.',
+                    technologies: ['HTML', 'CSS', 'JavaScript', 'Git'],
+                    url: 'https://github.com/renoowp21/Website-Portofolio',
+                    icon: 'fab fa-github',
+                    gradient: 'from-gray-700 to-gray-900'
+                },
+                {
+                    id: 3,
+                    title: 'Blog Website',
+                    category: 'web',
+                    description: 'Website blog dengan CMS custom dan optimasi SEO.',
+                    technologies: ['WordPress', 'PHP', 'MySQL'],
+                    url: '',
+                    icon: 'fas fa-blog',
+                    gradient: 'from-purple-500 to-pink-600'
+                }
+            ],
+            seo: {
+                title: 'Reno Widi Prastyo - Portfolio',
+                description: 'Professional Web Developer and UI/UX Designer portfolio showcasing innovative web applications and user-friendly designs.'
+            }
+        };
+
+        // Load data from localStorage or use default
+        let adminData = loadDataFromStorage();
+
+        // Storage Management Functions
+        function saveDataToStorage() {
+            try {
+                localStorage.setItem('portfolioAdminData', JSON.stringify(adminData));
+                localStorage.setItem('portfolioAdminCredentials', JSON.stringify(adminCredentials));
+                return true;
+            } catch (error) {
+                console.error('Error saving data to localStorage:', error);
+                return false;
+            }
+        }
+
+        function loadDataFromStorage() {
+            try {
+                // Load admin data
+                const savedData = localStorage.getItem('portfolioAdminData');
+                const savedCredentials = localStorage.getItem('portfolioAdminCredentials');
+                
+                if (savedData) {
+                    const parsedData = JSON.parse(savedData);
+                    // Merge with default data to ensure all properties exist
+                    return mergeWithDefault(parsedData, defaultAdminData);
+                }
+                
+                if (savedCredentials) {
+                    adminCredentials = JSON.parse(savedCredentials);
+                }
+                
+                return JSON.parse(JSON.stringify(defaultAdminData)); // Deep copy of default data
+            } catch (error) {
+                console.error('Error loading data from localStorage:', error);
+                return JSON.parse(JSON.stringify(defaultAdminData)); // Return default data on error
+            }
+        }
+
+        function mergeWithDefault(savedData, defaultData) {
+            const merged = JSON.parse(JSON.stringify(defaultData)); // Deep copy of default
+            
+            // Recursively merge saved data with default data
+            function deepMerge(target, source) {
+                for (const key in source) {
+                    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+                        if (!target[key]) target[key] = {};
+                        deepMerge(target[key], source[key]);
+                    } else {
+                        target[key] = source[key];
+                    }
+                }
+            }
+            
+            deepMerge(merged, savedData);
+            return merged;
+        }
+
+        function resetToDefault() {
+            if (confirm('⚠️ PERINGATAN: Ini akan menghapus SEMUA data yang telah Anda simpan dan mengembalikan ke pengaturan default.\n\nApakah Anda yakin ingin melanjutkan?')) {
+                localStorage.removeItem('portfolioAdminData');
+                localStorage.removeItem('portfolioAdminCredentials');
+                
+                // Reset to default
+                adminData = JSON.parse(JSON.stringify(defaultAdminData));
+                adminCredentials = {
+                    username: 'admin',
+                    password: 'admin123'
+                };
+                
+                // Update website content
+                updateWebsiteContent();
+                
+                // Reload admin panel if open
+                if (document.getElementById('adminPanel').classList.contains('show')) {
+                    loadAdminData();
+                    loadPortfolioItems();
+                }
+                
+                alert('✅ Data berhasil direset ke pengaturan default!');
+                
+                // Refresh page to ensure all changes are applied
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            }
+        }
+
+        function exportData() {
+            try {
+                const exportData = {
+                    adminData: adminData,
+                    adminCredentials: adminCredentials,
+                    exportDate: new Date().toISOString(),
+                    version: '1.0'
+                };
+                
+                const dataStr = JSON.stringify(exportData, null, 2);
+                const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(dataBlob);
+                link.download = `portfolio-backup-${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                
+                alert('✅ Data berhasil diekspor! File backup telah diunduh.');
+            } catch (error) {
+                console.error('Error exporting data:', error);
+                alert('❌ Gagal mengekspor data. Silakan coba lagi.');
+            }
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    if (importedData.adminData && importedData.adminCredentials) {
+                        if (confirm('⚠️ Import data akan mengganti semua pengaturan saat ini.\n\nApakah Anda yakin ingin melanjutkan?')) {
+                            adminData = mergeWithDefault(importedData.adminData, defaultAdminData);
+                            adminCredentials = importedData.adminCredentials;
+                            
+                            // Save to localStorage
+                            saveDataToStorage();
+                            
+                            // Update website content
+                            updateWebsiteContent();
+                            
+                            // Reload admin panel
+                            loadAdminData();
+                            loadPortfolioItems();
+                            
+                            alert('✅ Data berhasil diimport!');
+                        }
+                    } else {
+                        alert('❌ Format file tidak valid. Pastikan Anda menggunakan file backup yang benar.');
+                    }
+                } catch (error) {
+                    console.error('Error importing data:', error);
+                    alert('❌ Gagal mengimport data. Pastikan file backup valid.');
+                }
+            };
+            reader.readAsText(file);
+            
+            // Reset file input
+            event.target.value = '';
+        }
+
+        // Admin Authentication - Simplified
+        function showAdminLogin() {
+            const adminLogin = document.getElementById('adminLogin');
+            if (adminLogin) {
+                adminLogin.classList.add('show');
+                document.body.style.overflow = 'hidden';
+                
+                // Clear form
+                document.getElementById('adminUsername').value = '';
+                document.getElementById('adminPassword').value = '';
+                document.getElementById('adminUsername').focus();
+            }
+        }
+
+        function hideAdminLogin() {
+            const adminLogin = document.getElementById('adminLogin');
+            if (adminLogin) {
+                adminLogin.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function handleAdminLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            if (username === adminCredentials.username && password === adminCredentials.password) {
+                hideAdminLogin();
+                showAdminPanel();
+            } else {
+                alert('Username atau password salah!\n\nDefault:\nUsername: admin\nPassword: admin123');
+            }
+        }
+
+        function showAdminPanel() {
+            const adminPanel = document.getElementById('adminPanel');
+            if (adminPanel) {
+                adminPanel.classList.add('show');
+                document.body.style.overflow = 'hidden';
+                loadAdminData();
+                loadPortfolioItems();
+            }
+        }
+
+        function closeAdminPanel() {
+            const adminPanel = document.getElementById('adminPanel');
+            if (adminPanel) {
+                adminPanel.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Tab Management
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.admin-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content
+            const targetTab = document.getElementById(tabName);
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+            
+            // Add active class to clicked tab
+            const clickedTab = document.querySelector(`[onclick="switchTab('${tabName}')"]`);
+            if (clickedTab) {
+                clickedTab.classList.add('active');
+            }
+        }
+
+        // Profile Photo Management
+        function handleProfilePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Validate file size (2MB max)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Ukuran file terlalu besar! Maksimal 2MB.');
+                event.target.value = '';
+                return;
+            }
+            
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                alert('File harus berupa gambar (JPG, PNG, GIF).');
+                event.target.value = '';
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Data = e.target.result;
+                adminData.profile.photo = base64Data;
+                
+                // Save to localStorage
+                saveDataToStorage();
+                
+                // Update preview in admin panel
+                updateProfilePhotoPreview(base64Data);
+                
+                // Update hero section photo
+                updateHeroPhoto(base64Data);
+                
+                alert('✅ Foto profil berhasil diupload dan disimpan!');
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function updateProfilePhotoPreview(photoData) {
+            const adminIcon = document.getElementById('adminProfileIcon');
+            const adminImg = document.getElementById('adminProfileImg');
+            
+            if (photoData) {
+                adminIcon.style.display = 'none';
+                adminImg.src = photoData;
+                adminImg.style.display = 'block';
+            } else {
+                adminIcon.style.display = 'block';
+                adminImg.style.display = 'none';
+                adminImg.src = '';
+            }
+        }
+        
+        function updateHeroPhoto(photoData) {
+            const heroIcon = document.getElementById('heroProfileIcon');
+            const heroImg = document.getElementById('heroProfileImg');
+            
+            if (photoData) {
+                heroIcon.style.display = 'none';
+                heroImg.src = photoData;
+                heroImg.style.display = 'block';
+            } else {
+                heroIcon.style.display = 'block';
+                heroImg.style.display = 'none';
+                heroImg.src = '';
+            }
+        }
+        
+        function removeProfilePhoto() {
+            if (confirm('Apakah Anda yakin ingin menghapus foto profil?')) {
+                adminData.profile.photo = null;
+                
+                // Save to localStorage
+                saveDataToStorage();
+                
+                updateProfilePhotoPreview(null);
+                updateHeroPhoto(null);
+                document.getElementById('profilePhoto').value = '';
+                alert('✅ Foto profil berhasil dihapus dan disimpan!');
+            }
+        }
+        
+        function resetProfileToDefault() {
+            if (confirm('Reset foto profil ke default (icon user)?')) {
+                adminData.profile.photo = null;
+                
+                // Save to localStorage
+                saveDataToStorage();
+                
+                updateProfilePhotoPreview(null);
+                updateHeroPhoto(null);
+                document.getElementById('profilePhoto').value = '';
+                alert('✅ Foto profil direset ke default dan disimpan!');
+            }
+        }
+
+        // Profile Management
+        function updateProfile(event) {
+            event.preventDefault();
+            
+            adminData.profile.name = document.getElementById('profileName').value;
+            adminData.profile.title = document.getElementById('profileTitle').value;
+            adminData.profile.email = document.getElementById('profileEmail').value;
+            adminData.profile.phone = document.getElementById('profilePhone').value;
+            adminData.profile.location = document.getElementById('profileLocation').value;
+            adminData.profile.bio = document.getElementById('profileBio').value;
+            adminData.profile.linkedin = document.getElementById('profileLinkedin').value;
+            adminData.profile.github = document.getElementById('profileGithub').value;
+            
+            // Save to localStorage
+            saveDataToStorage();
+            
+            // Update website content
+            updateWebsiteContent();
+            
+            alert('✅ Profile berhasil diperbarui dan disimpan!');
+        }
+
+        // Function to update all website content
+        function updateWebsiteContent() {
+            // Update hero section
+            document.getElementById('heroName').textContent = adminData.profile.name;
+            document.getElementById('heroTitle').textContent = adminData.profile.title;
+            document.getElementById('aboutBio').textContent = adminData.profile.bio;
+            document.getElementById('footerName').textContent = adminData.profile.name;
+            
+            // Update contact section
+            document.getElementById('contactEmailDisplay').textContent = adminData.contact.email;
+            document.getElementById('contactWhatsappDisplay').textContent = adminData.contact.whatsapp;
+            document.getElementById('contactLocationDisplay').textContent = adminData.contact.location;
+            document.getElementById('contactMessage').textContent = adminData.contact.message;
+            
+            // Update profile photos
+            if (adminData.profile.photo) {
+                updateProfilePhotoPreview(adminData.profile.photo);
+                updateHeroPhoto(adminData.profile.photo);
+            }
+            
+            // Update portfolio grid
+            updatePortfolioGrid();
+            
+            // Update page title
+            document.title = adminData.seo.title;
+        }
+
+        // Portfolio Management
+        function showAddForm() {
+            document.getElementById('addForm').style.display = 'block';
+        }
+
+        function hideAddForm() {
+            document.getElementById('addForm').style.display = 'none';
+            document.querySelector('#addForm form').reset();
+        }
+
+        function addPortfolioItem(event) {
+            event.preventDefault();
+            
+            const newItem = {
+                id: Date.now(),
+                title: document.getElementById('portfolioTitle').value,
+                category: document.getElementById('portfolioCategory').value,
+                description: document.getElementById('portfolioDescription').value,
+                technologies: document.getElementById('portfolioTech').value.split(',').map(tech => tech.trim()),
+                url: document.getElementById('portfolioUrl').value,
+                icon: document.getElementById('portfolioIcon').value || 'fas fa-laptop-code',
+                gradient: document.getElementById('portfolioGradient').value || 'from-blue-500 to-purple-600'
+            };
+            
+            adminData.portfolioItems.push(newItem);
+            
+            // Save to localStorage
+            saveDataToStorage();
+            
+            loadPortfolioItems();
+            updatePortfolioGrid();
+            hideAddForm();
+            
+            alert('✅ Portfolio item berhasil ditambahkan dan disimpan!');
+        }
+
+        function editPortfolioItem(id) {
+            const item = adminData.portfolioItems.find(item => item.id === id);
+            if (!item) return;
+            
+            // Hide add form if open
+            hideAddForm();
+            
+            // Fill edit form with current data
+            document.getElementById('editPortfolioId').value = item.id;
+            document.getElementById('editPortfolioTitle').value = item.title;
+            document.getElementById('editPortfolioCategory').value = item.category;
+            document.getElementById('editPortfolioDescription').value = item.description;
+            document.getElementById('editPortfolioTech').value = item.technologies.join(', ');
+            document.getElementById('editPortfolioUrl').value = item.url || '';
+            document.getElementById('editPortfolioIcon').value = item.icon;
+            document.getElementById('editPortfolioGradient').value = item.gradient;
+            
+            // Show edit form
+            document.getElementById('editForm').style.display = 'block';
+            
+            // Scroll to form
+            document.getElementById('editForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function updatePortfolioItem(event) {
+            event.preventDefault();
+            
+            const id = parseInt(document.getElementById('editPortfolioId').value);
+            const itemIndex = adminData.portfolioItems.findIndex(item => item.id === id);
+            
+            if (itemIndex === -1) return;
+            
+            // Update the item
+            adminData.portfolioItems[itemIndex] = {
+                id: id,
+                title: document.getElementById('editPortfolioTitle').value,
+                category: document.getElementById('editPortfolioCategory').value,
+                description: document.getElementById('editPortfolioDescription').value,
+                technologies: document.getElementById('editPortfolioTech').value.split(',').map(tech => tech.trim()),
+                url: document.getElementById('editPortfolioUrl').value,
+                icon: document.getElementById('editPortfolioIcon').value,
+                gradient: document.getElementById('editPortfolioGradient').value
+            };
+            
+            // Save to localStorage
+            saveDataToStorage();
+            
+            loadPortfolioItems();
+            updatePortfolioGrid();
+            hideEditForm();
+            
+            alert('✅ Portfolio item berhasil diperbarui dan disimpan!');
+        }
+
+        function hideEditForm() {
+            document.getElementById('editForm').style.display = 'none';
+            document.querySelector('#editForm form').reset();
+        }
+
+        function getCategoryName(category) {
+            const categories = {
+                'web': 'Web Development',
+                'mobile': 'Mobile App',
+                'design': 'UI/UX Design',
+                'other': 'Other'
+            };
+            return categories[category] || category;
+        }
+
+        function loadPortfolioItems() {
+            const portfolioList = document.getElementById('portfolioList');
+            portfolioList.innerHTML = '';
+            
+            adminData.portfolioItems.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'portfolio-item';
+                itemDiv.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                        <div style="flex: 1;">
+                            <h4 style="font-weight: bold; margin-bottom: 0.5rem;">${item.title}</h4>
+                            <p style="color: #666; margin-bottom: 0.5rem;">${item.description}</p>
+                            <p style="font-size: 0.875rem; color: #888; margin-bottom: 0.5rem;">Category: ${getCategoryName(item.category)}</p>
+                            <p style="font-size: 0.875rem; color: #888; margin-bottom: 0.5rem;">Technologies: ${item.technologies.join(', ')}</p>
+                            <p style="font-size: 0.875rem; color: #888; margin-bottom: 0.5rem;">
+                                URL: ${item.url ? `<a href="${item.url}" target="_blank" style="color: #3b82f6;">${item.url}</a>` : '<span style="color: #999;">Tidak ada link</span>'}
+                            </p>
+                            <p style="font-size: 0.875rem; color: #888;">Icon: <i class="${item.icon}"></i> ${item.icon}</p>
+                        </div>
+                        <div class="item-actions" style="display: flex; gap: 0.5rem;">
+                            <button onclick="editPortfolioItem(${item.id})" class="btn btn-primary">Edit</button>
+                            <button onclick="deletePortfolioItem(${item.id})" class="btn btn-danger">Delete</button>
+                        </div>
+                    </div>
+                `;
+                portfolioList.appendChild(itemDiv);
+            });
+        }
+
+        function deletePortfolioItem(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus portfolio item ini?')) {
+                adminData.portfolioItems = adminData.portfolioItems.filter(item => item.id !== id);
+                
+                // Save to localStorage
+                saveDataToStorage();
+                
+                loadPortfolioItems();
+                updatePortfolioGrid();
+                alert('✅ Portfolio item berhasil dihapus!');
+            }
+        }
+
+        function updatePortfolioGrid() {
+            const portfolioGrid = document.getElementById('portfolioGrid');
+            if (!portfolioGrid) return;
+            
+            portfolioGrid.innerHTML = '';
+            
+            adminData.portfolioItems.forEach(item => {
+                const portfolioCard = document.createElement('div');
+                portfolioCard.className = 'bg-white p-6 rounded-xl shadow-lg card-hover';
+                
+                const actionButton = item.url ? 
+                    `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-sky-500 hover:text-sky-700 font-semibold">
+                        View Project <i class="fas fa-external-link-alt ml-2"></i>
+                    </a>` :
+                    `<span class="text-gray-400">Coming Soon</span>`;
+                
+                portfolioCard.innerHTML = `
+                    <div class="bg-gradient-to-r ${item.gradient} p-4 rounded-lg mb-4">
+                        <i class="${item.icon} text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">${item.title}</h3>
+                    <p class="text-gray-600 mb-4">${item.description}</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        ${item.technologies.slice(0, 3).map(tech => 
+                            `<span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">${tech}</span>`
+                        ).join('')}
+                        ${item.technologies.length > 3 ? `<span class="text-gray-400 text-sm">+${item.technologies.length - 3} more</span>` : ''}
+                    </div>
+                    ${actionButton}
+                `;
+                portfolioGrid.appendChild(portfolioCard);
+            });
+        }
+
+        // Contact Management
+        function updateContact(event) {
+            event.preventDefault();
+            
+            adminData.contact.email = document.getElementById('contactEmail').value;
+            adminData.contact.whatsapp = document.getElementById('contactWhatsapp').value;
+            adminData.contact.location = document.getElementById('contactLocation').value;
+            adminData.contact.message = document.getElementById('contactMessage').value;
+            adminData.contact.linkedin = document.getElementById('contactLinkedin').value;
+            adminData.contact.github = document.getElementById('contactGithub').value;
+            
+            // Save to localStorage
+            saveDataToStorage();
+            
+            // Update website content
+            updateWebsiteContent();
+            
+            alert('✅ Informasi kontak berhasil diperbarui dan disimpan!');
+        }
+
+        // Settings Management
+        function updateSEO(event) {
+            event.preventDefault();
+            
+            const title = document.getElementById('seoTitle').value;
+            const description = document.getElementById('seoDescription').value;
+            
+            adminData.seo.title = title;
+            adminData.seo.description = description;
+            
+            // Save to localStorage
+            saveDataToStorage();
+            
+            document.title = title;
+            
+            alert('✅ Pengaturan SEO berhasil diperbarui dan disimpan!');
+        }
+
+        function updateCredentials(event) {
+            event.preventDefault();
+            
+            const newUsername = document.getElementById('newUsername').value;
+            const newPassword = document.getElementById('newPassword').value;
+            
+            adminCredentials.username = newUsername;
+            adminCredentials.password = newPassword;
+            
+            // Save to localStorage
+            saveDataToStorage();
+            
+            document.getElementById('newUsername').value = '';
+            document.getElementById('newPassword').value = '';
+            
+            alert('✅ Kredensial admin berhasil diperbarui dan disimpan!');
+        }
+
+        // Link Management Functions
+        function updateCVLink(event) {
+            event.preventDefault();
+            adminData.links.cv = document.getElementById('cvLink').value;
+            
+            // Save to localStorage
+            saveDataToStorage();
+            
+            alert('✅ Link CV berhasil diperbarui dan disimpan!');
+        }
+
+        function updateSocialLinks(event) {
+            event.preventDefault();
+            adminData.links.social.linkedin = document.getElementById('socialLinkedin').value;
+            adminData.links.social.github = document.getElementById('socialGithub').value;
+            adminData.links.social.twitter = document.getElementById('socialTwitter').value;
+            adminData.links.social.instagram = document.getElementById('socialInstagram').value;
+            
+            // Save to localStorage
+            saveDataToStorage();
+            
+            alert('✅ Link media sosial berhasil diperbarui dan disimpan!');
+        }
+
+        function updateCertificateLinks(event) {
+            event.preventDefault();
+            adminData.links.certificates.dicoding = document.getElementById('certDicoding').value;
+            adminData.links.certificates.uiux = document.getElementById('certUIUX').value;
+            adminData.links.certificates.javascript = document.getElementById('certJavaScript').value;
+            adminData.links.certificates.other = document.getElementById('certOther').value;
+            
+            // Save to localStorage
+            saveDataToStorage();
+            
+            alert('✅ Link sertifikat berhasil diperbarui dan disimpan!');
+        }
+
+        function updateContactLinks(event) {
+            event.preventDefault();
+            adminData.links.contact.whatsappNumber = document.getElementById('whatsappNumber').value;
+            adminData.links.contact.whatsappMessage = document.getElementById('whatsappMessage').value;
+            adminData.links.contact.email = document.getElementById('emailAddress').value;
+            adminData.links.contact.mapsLocation = document.getElementById('mapsLocation').value;
+            
+            // Save to localStorage
+            saveDataToStorage();
+            
+            alert('✅ Link kontak berhasil diperbarui dan disimpan!');
+        }
+
+        function loadAdminData() {
+            // Load profile data
+            document.getElementById('profileName').value = adminData.profile.name;
+            document.getElementById('profileTitle').value = adminData.profile.title;
+            document.getElementById('profileEmail').value = adminData.profile.email;
+            document.getElementById('profilePhone').value = adminData.profile.phone;
+            document.getElementById('profileLocation').value = adminData.profile.location;
+            document.getElementById('profileBio').value = adminData.profile.bio;
+            document.getElementById('profileLinkedin').value = adminData.profile.linkedin;
+            document.getElementById('profileGithub').value = adminData.profile.github;
+            
+            // Load profile photo
+            if (adminData.profile.photo) {
+                updateProfilePhotoPreview(adminData.profile.photo);
+                updateHeroPhoto(adminData.profile.photo);
+            }
+            
+            // Load contact data
+            document.getElementById('contactEmail').value = adminData.contact.email;
+            document.getElementById('contactWhatsapp').value = adminData.contact.whatsapp;
+            document.getElementById('contactLocation').value = adminData.contact.location;
+            document.getElementById('contactMessage').value = adminData.contact.message;
+            document.getElementById('contactLinkedin').value = adminData.contact.linkedin;
+            document.getElementById('contactGithub').value = adminData.contact.github;
+            
+            // Load links data
+            document.getElementById('cvLink').value = adminData.links.cv;
+            document.getElementById('socialLinkedin').value = adminData.links.social.linkedin;
+            document.getElementById('socialGithub').value = adminData.links.social.github;
+            document.getElementById('socialTwitter').value = adminData.links.social.twitter;
+            document.getElementById('socialInstagram').value = adminData.links.social.instagram;
+            document.getElementById('certDicoding').value = adminData.links.certificates.dicoding;
+            document.getElementById('certUIUX').value = adminData.links.certificates.uiux;
+            document.getElementById('certJavaScript').value = adminData.links.certificates.javascript;
+            document.getElementById('certOther').value = adminData.links.certificates.other;
+            document.getElementById('whatsappNumber').value = adminData.links.contact.whatsappNumber;
+            document.getElementById('whatsappMessage').value = adminData.links.contact.whatsappMessage;
+            document.getElementById('emailAddress').value = adminData.links.contact.email;
+            document.getElementById('mapsLocation').value = adminData.links.contact.mapsLocation;
+            
+            // Load SEO data
+            document.getElementById('seoTitle').value = adminData.seo.title;
+            document.getElementById('seoDescription').value = adminData.seo.description;
+        }
+
+        // Navigation functions
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                // Close mobile menu if open
+                document.getElementById('mobileMenu').classList.add('hidden');
+            });
+        });
+
+        // Contact form handler
+        function handleContactForm(event) {
+            event.preventDefault();
+            alert('Terima kasih! Pesan Anda telah dikirim. Saya akan segera menghubungi Anda kembali.');
+            event.target.reset();
+        }
+
+        // CV download function
+        function downloadCV() {
+            const cvUrl = adminData.links.cv || 'https://drive.google.com/file/d/1_0ZQlL5PJf_29qL89b6S8yDKjcLkpbL-/view?usp=drive_link';
+            window.open(cvUrl, '_blank', 'noopener,noreferrer');
+            alert('CV sedang dibuka di tab baru. Terima kasih atas minat Anda!');
+        }
+
+        // Theme toggle function
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (body.classList.contains('dark')) {
+                body.classList.remove('dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            } else {
+                body.classList.add('dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        }
+
+        // Contact functions
+        function openEmail() {
+            const email = adminData.links.contact.email || 'renowp46@gmail.com';
+            window.open(`mailto:${email}?subject=Halo%20Reno&body=Halo%20Reno,%0A%0ASaya%20tertarik%20dengan%20layanan%20web%20development%20Anda.%20Bisakah%20kita%20diskusi%20lebih%20lanjut?%0A%0ATerima%20kasih.`, '_blank');
+        }
+
+        function openWhatsApp() {
+            const whatsappNumber = adminData.links.contact.whatsappNumber || '628976624410';
+            const message = encodeURIComponent(adminData.links.contact.whatsappMessage || 'Halo Reno, saya tertarik dengan layanan web development Anda.');
+            window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank', 'noopener,noreferrer');
+        }
+
+        function openMaps() {
+            const location = encodeURIComponent(adminData.links.contact.mapsLocation || 'Sidoarjo, Indonesia');
+            window.open(`https://maps.google.com/?q=${location}`, '_blank', 'noopener,noreferrer');
+        }
+
+        function openLinkedIn() {
+            const linkedinUrl = adminData.links.social.linkedin || adminData.contact.linkedin;
+            window.open(linkedinUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        function openGithub() {
+            const githubUrl = adminData.links.social.github || adminData.contact.github;
+            window.open(githubUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        function openTwitter() {
+            const twitterUrl = adminData.links.social.twitter || 'https://twitter.com/renoowp';
+            window.open(twitterUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        function openInstagram() {
+            const instagramUrl = adminData.links.social.instagram || 'https://instagram.com/renoowp';
+            window.open(instagramUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        function viewCertificate(certType) {
+            let certificateUrl = '';
+            
+            switch(certType) {
+                case 'web-dev':
+                    certificateUrl = adminData.links.certificates.dicoding;
+                    break;
+                case 'ui-ux':
+                    certificateUrl = adminData.links.certificates.uiux;
+                    break;
+                case 'javascript':
+                    certificateUrl = adminData.links.certificates.javascript;
+                    break;
+                case 'other':
+                    certificateUrl = adminData.links.certificates.other;
+                    break;
+            }
+            
+            if (certificateUrl && certificateUrl !== '') {
+                window.open(certificateUrl, '_blank', 'noopener,noreferrer');
+            } else {
+                alert('Sertifikat belum tersedia. Silakan update link di panel admin.');
+            }
+        }
+
+        // Scroll animations
+        function handleScrollAnimations() {
+            const elements = document.querySelectorAll('.animate-on-scroll, .slide-in-left, .slide-in-right, .scale-in');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('animate');
+                }
+            });
+        }
+
+        // Initialize scroll animations
+        window.addEventListener('scroll', handleScrollAnimations);
+        window.addEventListener('load', handleScrollAnimations);
+
+        // Initialize page on load
+        window.addEventListener('load', function() {
+            // Hide loader after animation completes
+            setTimeout(() => {
+                const pageLoader = document.getElementById('pageLoader');
+                if (pageLoader) {
+                    pageLoader.style.display = 'none';
+                }
+            }, 3500);
+            
+            // Initialize website content with saved data
+            updateWebsiteContent();
+            
+            // Initialize portfolio grid
+            updatePortfolioGrid();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99372a28819f0d23',t:'MTc2MTI4NDY5MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
